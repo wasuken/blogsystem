@@ -20,12 +20,19 @@
 
 (defun getContents (uid)
   (car (member-if #'(lambda (x) (= (getf x :uid) uid)) contents-list)))
-
+;;対象がないならnilを返す
 (defun updateContents (uid contents)
-  (when (null (getContents uid)) nil)
-  (removeContents uid)
-  (addContents contents uid))
+  (cond ((getContents uid)
+         (removeContents uid)
+         (addContents contents uid))))
 
 (defun removeContents (uid)
   (setf contents-list (remove-if #'(lambda (x) (equal (getf x :uid) uid))
                                  contents-list)))
+;;ユーザ認証機能実装したら複雑になる
+(defun archive ()
+  contents-list)
+;;削除前にバックアップとか取れるといいかもね。
+(defun all-remove-contents ()
+  (setf contents-list nil))
+
