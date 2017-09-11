@@ -14,10 +14,7 @@
         (append lst (list `(blogsystem::all-remove-contents)))
         lst)))
 
-(print (macroexpand '(subtest-clean "uid周りが怖すぎるので更新しまくってかき回したテストを入れる。"
-                      )))
-
-(plan 3)
+(plan 4)
 (subtest-clean "基本機能テスト"
                (diag "登録(3件)")
                ;;contentsを登録する
@@ -54,3 +51,10 @@
                (diag "存在しないアイテムの削除")
                (is (blogsystem::removeContents 1000) nil))
 
+(subtest-clean "データ保存・読み込みテスト"
+               (blogsystem::addContents "test")
+               (blogsystem::saveContents)
+               (if (probe-file "./database.txt")
+                   (pass "save file exists!")
+                   (fail "save file not exists!"))
+               (delete-file "./database.txt"))

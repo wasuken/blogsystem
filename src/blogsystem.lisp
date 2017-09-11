@@ -1,5 +1,6 @@
 (in-package #:blogsystem)
 
+(defvar db-path "./database.txt")
 (defvar contents-list '())
 
 (defun addContents (contents &optional (uid (1+ (max-uid))))
@@ -36,3 +37,13 @@
 (defun all-remove-contents ()
   (setf contents-list nil))
 
+(defun saveContents ()
+  (with-open-file (out db-path :direction :output
+                       :if-exists :supersede)
+    (with-standard-io-syntax
+      (print contents-list out))))
+
+(defun loadContents ()
+  (with-open-file (in db-path)
+    (with-standard-io-syntax
+      (setf contents-list (read in)))))

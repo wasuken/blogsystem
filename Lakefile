@@ -9,7 +9,7 @@
 (use-syntax :interpol)
  ;;; here follow your tasks...
 (task "test" ()
-      (ql:quickload :prove)
+      (ql:quickload '(:prove) :silent t)
       (load #P"blogsystem.asd")
       (load #P"blogsystem-test.asd")
       (asdf:test-system :blogsystem-test))
